@@ -26,7 +26,7 @@ import "github.com/kooqix/goasync"
 
 ### 1. Running Functions Asynchronously
 
-The `Go` function allows you to run a function in a goroutine. It increments an internal `sync.WaitGroup` counter, ensuring that the program waits for the goroutine to finish before exiting, provided you call `async.WaitAll` or use `async.RunMain`.
+The `Go` function allows you to run a function in a goroutine. It increments an internal `sync.WaitGroup` counter, ensuring that the program waits for the goroutine to finish before exiting, provided you call `goasync.WaitAll` or use `goasync.RunMain`.
 
 ```go
 package main
@@ -38,7 +38,7 @@ import (
 
 func myFunction() {
 	// Create a goroutine to run this function
-	async.Go(func() {
+	goasync.Go(func() {
 		fmt.Println("Hello, World!")
 	})
 
@@ -48,7 +48,7 @@ func myFunction() {
 
 ### 2. Waiting for All Goroutines to Complete
 
-The `WaitAll` function blocks until all goroutines started with `async.Go` have completed. This is essential for ensuring that your program does not exit prematurely, leaving unfinished tasks.
+The `WaitAll` function blocks until all goroutines started with `goasync.Go` have completed. This is essential for ensuring that your program does not exit prematurely, leaving unfinished tasks.
 
 ```go
 package main
@@ -58,10 +58,11 @@ import (
 )
 
 func main() {
-	async.Go(func() {
+	// Create a goroutine to run some async code
+	goasync.Go(func() {
 		// Your async code here
 	})
-	async.WaitAll() // Waits for all async tasks to complete before exiting
+	goasync.WaitAll() // Waits for all async tasks to complete before exiting
 }
 ```
 
@@ -75,8 +76,8 @@ package main
 import "github.com/kooqix/goasync"
 
 func main() {
-	async.RunMain(func() {
-		async.Go(func() {
+	goasync.RunMain(func() {
+		goasync.Go(func() {
 			// Your async code here
 		})
 
@@ -87,7 +88,7 @@ func main() {
 
 ### 4. Example Use Case
 
-Consider a scenario where you have multiple independent tasks that need to run concurrently. Using the `async` package, you can easily manage these tasks:
+Consider a scenario where you have multiple independent tasks that need to run concurrently. Using the `goasync` package, you can easily manage these tasks:
 
 ```go
 package main
@@ -99,13 +100,13 @@ import (
 )
 
 func main() {
-	async.RunMain(func() {
-		async.Go(func() {
+	goasync.RunMain(func() {
+		goasync.Go(func() {
 			time.Sleep(2 * time.Second)
 			fmt.Println("Task 1 complete")
 		})
 
-		async.Go(func() {
+		goasync.Go(func() {
 			time.Sleep(1 * time.Second)
 			fmt.Println("Task 2 complete")
 		})
